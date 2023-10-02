@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,8 +14,13 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "voto")
-public class Voto {
+public class Voto implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id", columnDefinition = "VARCHAR(36)")

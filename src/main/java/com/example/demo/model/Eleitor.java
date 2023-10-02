@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.io.Serializable;
 import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,7 +20,12 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "eleitor")
-public class Eleitor {
+public class Eleitor implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
