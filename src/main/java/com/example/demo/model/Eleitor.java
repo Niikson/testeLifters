@@ -1,14 +1,18 @@
 package com.example.demo.model;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -18,18 +22,20 @@ import jakarta.validation.constraints.NotNull;
 public class Eleitor {
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", columnDefinition = "VARCHAR(36)")
+	@JdbcTypeCode(Types.VARCHAR)
 	private UUID id;
 
 	@NotNull
 	private String nome;
 
 	@NotNull
-	@CPF
 	private Integer cpf;
 
-	@NotNull
+	@Column(name = "idCargo", columnDefinition = "VARCHAR(36)")
+	@JdbcTypeCode(Types.VARCHAR)
+	@JsonDeserialize
 	private UUID idCargo;
 	private LocalDateTime criadoEm;
 	private LocalDateTime alteradoEm;

@@ -1,17 +1,20 @@
 package com.example.demo.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Eleitor;
 
-public interface EleitorRepository extends JpaRepository<Eleitor, Long> {
+@Repository
+public interface EleitorRepository extends JpaRepository<Eleitor, UUID> {
 
-	Eleitor findById(UUID id);
+	Optional<Eleitor> findById(UUID id);
 
 	void deleteById(UUID id);
 
-	Eleitor findByCPF(Integer cpf);
+	Eleitor findByCpf(Integer cpf);
 
 }

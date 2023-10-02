@@ -1,33 +1,34 @@
 package com.example.demo.model;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
 
-import org.hibernate.annotations.GenericGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "candidato")
 public class Candidato {
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", columnDefinition = "VARCHAR(36)")
+	@JdbcTypeCode(Types.VARCHAR)
 	private UUID id;
 
 	@NotNull
 	private String nome;
 
 	@NotNull
-	@Size(min = 2, max = 5)
 	private Integer numero;
 	private String legenda;
 

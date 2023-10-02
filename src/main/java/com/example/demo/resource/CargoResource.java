@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.event.RecursoCriadoEvent;
 import com.example.demo.model.Cargo;
-import com.example.demo.repository.CargoRepository;
 import com.example.demo.service.CargoService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,9 +29,6 @@ import jakarta.validation.Valid;
 public class CargoResource {
 
 	@Autowired
-	private CargoRepository cargoRepository;
-
-	@Autowired
 	private CargoService cargoService;
 
 	@Autowired
@@ -40,25 +36,25 @@ public class CargoResource {
 
 	@GetMapping
 	public List<Cargo> listar() {
-		return cargoRepository.findAll();
+		return cargoService.listar();
 	}
 
 	@PostMapping
 	public ResponseEntity<Cargo> criar(@Valid @RequestBody Cargo cargo, HttpServletResponse response) {
-		Cargo cargoSalvo = cargoRepository.save(cargo);
+		Cargo cargoSalvo = cargoService.criar(cargo);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cargoSalvo.getId()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(cargoSalvo);
 	}
 
 	@GetMapping("/{id}")
 	public Cargo buscarPeloId(@PathVariable UUID id) {
-		return cargoRepository.findById(id);
+		return cargoService.buscarPeloId(id);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable UUID id) {
-		cargoRepository.deleteById(id);
+		cargoService.remover(id);
 	}
 
 	@PutMapping("/{id}")

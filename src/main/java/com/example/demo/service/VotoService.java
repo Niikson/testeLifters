@@ -28,7 +28,7 @@ public class VotoService {
 
 	// Verifica se o candidato possui algum voto computado
 	public Voto candidatoPossuiVoto(UUID idCandidato) {
-		Voto votoSalvo = votoRepository.findVotoCandidato(idCandidato);
+		Voto votoSalvo = votoRepository.findByIdCandidato(idCandidato);
 		if (votoSalvo != null) {
 			return votoSalvo;
 		}
@@ -37,7 +37,7 @@ public class VotoService {
 
 	// Verifica se o eleitor já realizou algum voto
 	public Voto eleitorJaVotou(UUID idEleitor) {
-		Voto votoSalvo = votoRepository.findVotoEleitor(idEleitor);
+		Voto votoSalvo = votoRepository.findByIdEleitor(idEleitor);
 		if (votoSalvo != null) {
 			return votoSalvo;
 		}

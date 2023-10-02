@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.model.Eleitor;
 import com.example.demo.model.Voto;
@@ -20,6 +22,14 @@ public class EleitorService {
 	@Autowired
 	private VotoService votoService;
 
+	public List<Eleitor> listar() {
+		return eleitorRepository.findAll();
+	}
+
+	public Eleitor buscarPeloId(@PathVariable UUID id) {
+		return eleitorRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
+	}
+
 	public Eleitor criar(Eleitor eleitor) {
 		Eleitor eleitorSalvo = eleitorJaExiste(eleitor);
 		if (eleitorSalvo == null) {
@@ -29,7 +39,7 @@ public class EleitorService {
 	}
 
 	public Eleitor atualizar(UUID id, Eleitor eleitor) {
-		Eleitor eleitorSalvo = eleitorRepository.findById(id);
+		Eleitor eleitorSalvo = eleitorRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
 		// Não existe eleitor com esse id para edição
 		if (eleitorSalvo == null) {
 			throw new EmptyResultDataAccessException(1);
@@ -62,7 +72,7 @@ public class EleitorService {
 
 	// Verifica se existe outro eleitor com esse cpf
 	public Eleitor eleitorJaExiste(Eleitor eleitor) {
-		Eleitor eleitorSalvo = eleitorRepository.findByCPF(eleitor.getCpf());
+		Eleitor eleitorSalvo = eleitorRepository.findByCpf(eleitor.getCpf());
 		if (eleitorSalvo != null) {
 			return eleitorSalvo;
 		}

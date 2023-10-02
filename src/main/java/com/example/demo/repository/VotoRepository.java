@@ -3,13 +3,15 @@ package com.example.demo.repository;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Voto;
 
-public interface VotoRepository extends JpaRepository<Voto, Long> {
+@Repository
+public interface VotoRepository extends JpaRepository<Voto, UUID> {
 
-	Voto findVotoEleitor(UUID idEleitor);
+	Voto findByIdEleitor(UUID idEleitor);
 
-	Voto findVotoCandidato(UUID idCandidato);
+	Voto findByIdCandidato(UUID idCandidato);
 
 }

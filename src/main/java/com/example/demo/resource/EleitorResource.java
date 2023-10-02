@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.event.RecursoCriadoEvent;
 import com.example.demo.model.Eleitor;
 import com.example.demo.model.Voto;
-import com.example.demo.repository.EleitorRepository;
 import com.example.demo.service.EleitorService;
 import com.example.demo.service.VotoService;
 
@@ -30,9 +29,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/eleitores")
 public class EleitorResource {
-
-	@Autowired
-	private EleitorRepository eleitorRepository;
 
 	@Autowired
 	private EleitorService eleitorService;
@@ -45,7 +41,7 @@ public class EleitorResource {
 
 	@GetMapping
 	public List<Eleitor> listar() {
-		return eleitorRepository.findAll();
+		return eleitorService.listar();
 	}
 
 	@PostMapping
@@ -57,10 +53,10 @@ public class EleitorResource {
 
 	@GetMapping("/{id}")
 	public Eleitor buscarPeloId(@PathVariable UUID id) {
-		return eleitorRepository.findById(id);
+		return eleitorService.buscarPeloId(id);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable UUID id) {
 		eleitorService.remover(id);
@@ -72,7 +68,7 @@ public class EleitorResource {
 		return ResponseEntity.ok(eleitorSalvo);
 	}
 
-	@PostMapping("/{id}/votar")
+	@PostMapping("/{idCandidato}/votar")
 	public ResponseEntity<Voto> votar(@PathVariable UUID idCandidato, @Valid @RequestBody Eleitor eleitor,
 			HttpServletResponse response) {
 		Voto votoSalvo = votoService.registrarVoto(idCandidato, eleitor.getId());

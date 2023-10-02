@@ -48,10 +48,11 @@ public class CandidatoResource {
 
 	@GetMapping("/{id}")
 	public Candidato buscarPeloId(@PathVariable UUID id) {
+		System.out.println(id);
 		return candidatoService.buscarPeloId(id);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable UUID id) {
 		candidatoService.remover(id);

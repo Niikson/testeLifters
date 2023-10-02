@@ -21,13 +21,13 @@ public class CandidatoService {
 
 	@Autowired
 	private VotoService votoService;
-	
+
 	public List<Candidato> listar() {
 		return candidatoRepository.findAll();
 	}
-	
+
 	public Candidato buscarPeloId(@PathVariable UUID id) {
-		return candidatoRepository.findById(id);
+		return candidatoRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
 	}
 
 	public Candidato criar(Candidato candidato) {
@@ -39,7 +39,8 @@ public class CandidatoService {
 	}
 
 	public Candidato atualizar(UUID id, Candidato candidato) {
-		Candidato candidatoSalvo = candidatoRepository.findById(id);
+		Candidato candidatoSalvo = candidatoRepository.findById(id)
+				.orElseThrow(() -> new EmptyResultDataAccessException(1));
 		// Não existe candidato com esse id para edição
 		if (candidatoSalvo == null) {
 			throw new EmptyResultDataAccessException(1);
